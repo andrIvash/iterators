@@ -5,7 +5,7 @@ var path = require('path');
 
 // paths
 var paths = {
-    localhost: "http://localhost:8080/index.html",
+    localhost: "http://localhost:3000/index.html",
     scripts: '/**/*.js'
 };
 
@@ -16,9 +16,9 @@ gulp.task('webserver', function() {
             livereload: true,
             directoryListing: true,
             open: paths.localhost,
-            port: 8080,
+            port: 3000,
         }));
 });
 
 // The default task is 'watch'
-gulp.task("default", ["webserver"]);
+gulp.task("default", gulp.series('webserver'));

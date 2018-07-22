@@ -122,15 +122,9 @@ Object.defineProperty(Number.prototype, Symbol.iterator, {
   configurable: true,
   value: function() {
     const initialValue = this.valueOf();
-    const flag = initialValue > 0;
-    let absNumber = Math.abs(initialValue);
-    let index = 0;
+    let index = initialValue > 0 ? -1 : 1;
 
     return {
-      isIncrement(flag) {
-        return flag ? index++ : index-- ;
-      },
-
       [Symbol.iterator]: (current) => {
         return {
           next: () => ({
@@ -140,8 +134,9 @@ Object.defineProperty(Number.prototype, Symbol.iterator, {
       },
       
       next() {
-        if (absNumber-- < 0) { return { done: true } };
-        return this[Symbol.iterator](this.isIncrement(flag)).next();
+        if (index == initialValue) { return { done: true } };
+        index = index + Math.sign(initialValue);
+        return this[Symbol.iterator](index).next();
       }
     }
   }
